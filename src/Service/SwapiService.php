@@ -15,7 +15,8 @@ class SwapiService extends BaseApiService
         'planets',
         'starships',
         'vehicles',
-        'species'
+        'species',
+        'people',
     ];
 
     private array $routes = [
@@ -52,6 +53,31 @@ class SwapiService extends BaseApiService
         }
 
         return $filmData;
+    }
+
+    public function fetchAllCharacters(): array
+    {
+        return $this->fetchAll('characters');
+    }
+
+    public function fetchAllPlanets(): array
+    {
+        return $this->fetchAll('planets');
+    }
+
+    public function fetchAllSpecies(): array
+    {
+        return $this->fetchAll('species');
+    }
+
+    public function fetchAllStarships(): array
+    {
+        return $this->fetchAll('starships');
+    }
+
+    public function fetchAllVehicles(): array
+    {
+        return $this->fetchAll('starships');
     }
 
     public function fetchFilmById(int $id): array
