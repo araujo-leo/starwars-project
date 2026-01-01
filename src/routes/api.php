@@ -1,12 +1,12 @@
 <?php
 
 use App\Core\Router;
-use App\Controller\WebController;
-use App\Controller\ApiController;
+use App\Controller\FilmController;
+
 
 $router = new Router();
 
-$router->get('/api/films', [ApiController::class, 'listFilms']);
-$router->get('/api/film-details', [ApiController::class, 'getFilmDetails']);
+$router->get('/api/films', [FilmController::class, 'listFilms']);
+$router->get('/api/film-details', [FilmController::class, 'getFilmDetails']);
 
 return $router;

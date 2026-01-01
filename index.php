@@ -13,6 +13,6 @@ if ($_ENV['APP_DEBUG'] ?? false) {
     error_reporting(E_ALL);
 }
 
-$router = require __DIR__ . '/src/routes/main.php';
+$router = require __DIR__ . '/src/routes/api.php';
 
 $router->dispatch();

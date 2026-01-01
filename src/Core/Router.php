@@ -29,7 +29,7 @@ class Router
             [$controllerClass, $action] = $this->routes[$method][$uri];
 
             $controller = new $controllerClass();
-            $controller->$action();
+            echo $controller->$action();
         } else {
             http_response_code(404);
             echo "Página não encontrada (404)";
