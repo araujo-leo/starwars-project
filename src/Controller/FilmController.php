@@ -35,7 +35,6 @@ class FilmController {
                 'data' => $films
             ], 200);
         } catch (Exception $e) {
-            http_response_code(500);
             error_log($e->getMessage());
             echo json_encode([
                 'error' => true,
