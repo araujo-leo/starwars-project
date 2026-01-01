@@ -34,14 +34,24 @@ class SwapiService extends BaseApiService
 
     public function fetchAllFilms(): array
     {
-        $url = $this->baseUrl . $this->routes['films'];
-        $data = $this->request($url);
+        $filmData = $this->fetchAll('films');
+        if (isset($filmData['results'])) {
+            foreach ($filmData['results'] as &$film) {
 
-        foreach ($data['results'] as &$film) {
-            $film['id'] = $this->extractIdFromUrl($film['url']);
+                if (isset($film['release_date'])) {
+                    $releaseDate = new \DateTime($film['release_date']);
+                    $diff = $releaseDate->diff(new \DateTime());
+
+                    $film['interval'] = [
+                        'years' => $diff->y,
+                        'months' => $diff->m,
+                        'days' => $diff->d,
+                    ];
+                }
+            }
         }
 
-        return $data;
+        return $filmData;
     }
 
     public function fetchFilmById(int $id): array
@@ -88,7 +98,33 @@ class SwapiService extends BaseApiService
         return $this->fetchById('vehicles',$id);
     }
 
-    private function fetchById(string $route, int $id): array   {
+    private function fetchAll(string $routeKey): array
+    {
+        $url = $this->baseUrl . $this->routes[$routeKey];
+        $data = $this->request($url);
+
+        $appUrl = $_ENV['APP_URL'] ?? 'http://localhost:8000';
+        $resourcePath = rtrim($this->routes[$routeKey], '/');
+
+        foreach ($data['results'] as &$item) {
+
+            $id = $this->extractIdFromUrl($item['url']);
+            $item['id'] = $id;
+            $item['url'] = "{$appUrl}/api/{$resourcePath}/{$id}";
+
+            foreach ($this->tradeFields as $field) {
+
+                if (isset($item[$field]) && is_array($item[$field])) {
+                    $item[$field] = $this->enrichListWithLocalUrls($item[$field]);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    private function fetchById(string $route, int $id): array
+    {
         $url = $this->baseUrl . $this->routes[$route] . $id . '/';
         $data = $this->request($url);
         $data['id'] = $this->extractIdFromUrl($data['url']);
