@@ -4,13 +4,13 @@ namespace App\Controller;
 
 use App\Service\SwapiService;
 
-class StarshipController
+class SpeciesController
 {
-    public function getStarship($id)
+    public function getSpecies($id)
     {
         try {
             $swapiService = new SwapiService();
-            $films = $swapiService->fetchStarshipById($id);
+            $films = $swapiService->fetchSpecieById($id);
             header('Content-Type: application/json');
             echo json_encode([
                 'success' => true,

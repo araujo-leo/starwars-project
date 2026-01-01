@@ -8,6 +8,15 @@ use Exception;
 class SwapiService extends BaseApiService
 {
     private string $baseUrl;
+    private array $tradeFields = [
+        'residents',
+        'films',
+        'characters',
+        'planets',
+        'starships',
+        'vehicles',
+        'species'
+    ];
 
     private array $routes = [
         'films' => 'films/',
@@ -50,9 +59,7 @@ class SwapiService extends BaseApiService
 
         $filmData['id'] = $this->extractIdFromUrl($filmData['url']);
 
-        $relatedFields = ['characters', 'planets', 'starships', 'vehicles', 'species'];
-
-        foreach ($relatedFields as $field) {
+        foreach ($this->tradeFields as $field) {
             if (isset($filmData[$field]) && is_array($filmData[$field])) {
                 $filmData[$field] = $this->enrichListWithLocalUrls($filmData[$field]);
             }
@@ -63,19 +70,41 @@ class SwapiService extends BaseApiService
 
     public function fetchCharacterById(int $id): array
     {
-        $url = $this->baseUrl . $this->routes['characters'] . $id . '/';
-        $characterData = $this->request($url);
+        return $this->fetchById('characters',$id);
+    }
 
+    public function fetchPlanetById(int $id): array
+    {
+        return $this->fetchById('planets',$id);
+    }
 
-        $relatedFields = ['characters', 'planets', 'starships', 'vehicles', 'species'];
+    public function fetchSpecieById(int $id): array
+    {
+        return $this->fetchById('species',$id);
+    }
 
-        foreach ($relatedFields as $field) {
-            if (isset($characterData[$field]) && is_array($characterData[$field])) {
-                $characterData[$field] = $this->enrichListWithLocalUrls($characterData[$field]);
+    public function fetchStarshipById(int $id): array
+    {
+        return $this->fetchById('starships',$id);
+    }
+
+    public function fetchVehicleById(int $id): array
+    {
+        return $this->fetchById('vehicles',$id);
+    }
+
+    private function fetchById(string $route, int $id): array   {
+        $url = $this->baseUrl . $this->routes[$route] . $id . '/';
+        $data = $this->request($url);
+        $data['id'] = $this->extractIdFromUrl($data['url']);
+
+        foreach($this->tradeFields as $field) {
+            if (isset($data[$field]) && is_array($data[$field])) {
+                $data[$field] = $this->enrichListWithLocalUrls($data[$field]);
             }
         }
 
-        return $characterData;
+        return $data;
     }
 
 

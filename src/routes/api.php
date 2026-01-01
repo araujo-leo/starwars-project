@@ -3,6 +3,10 @@
 use App\Core\Router;
 use App\Controller\FilmController;
 use App\Controller\CharacterController;
+use App\Controller\PlanetController;
+use App\Controller\StarshipController;
+use App\Controller\VehicleController;
+use App\Controller\SpeciesController;
 
 $router = new Router();
 
