@@ -46,23 +46,18 @@ class SwapiService extends BaseApiService
 
     public function fetchFilmById(int $id): array
     {
-        $url = $this->baseUrl . $this->routes['films'] . $id . '/';
-        $filmData = $this->request($url);
+        $filmData = $this->fetchById('films', $id);
 
-        $releaseDate = new DateTime($filmData['release_date']);
-        $diff = $releaseDate->diff(new DateTime());
-        $filmData['interval'] = [
-            'years' => $diff->y,
-            'months' => $diff->m,
-            'days' => $diff->d,
-        ];
+        if(isset($filmData['release_date'])) {
+            $releaseDate = new DateTime($filmData['release_date']);
 
-        $filmData['id'] = $this->extractIdFromUrl($filmData['url']);
+            $diff = $releaseDate->diff(new DateTime());
 
-        foreach ($this->tradeFields as $field) {
-            if (isset($filmData[$field]) && is_array($filmData[$field])) {
-                $filmData[$field] = $this->enrichListWithLocalUrls($filmData[$field]);
-            }
+            $filmData['interval'] = [
+                'years' => $diff->y,
+                'months' => $diff->m,
+                'days' => $diff->d,
+            ];
         }
 
         return $filmData;
@@ -97,6 +92,12 @@ class SwapiService extends BaseApiService
         $url = $this->baseUrl . $this->routes[$route] . $id . '/';
         $data = $this->request($url);
         $data['id'] = $this->extractIdFromUrl($data['url']);
+
+        $url = $_ENV['APP_URL'] ?? 'http://localhost:8000/';
+
+        $path = rtrim ($this->routes[$route], '/');
+
+        $data['url'] = $url . $path . '/' . $data['id'];
 
         foreach($this->tradeFields as $field) {
             if (isset($data[$field]) && is_array($data[$field])) {
