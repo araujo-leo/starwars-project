@@ -39,6 +39,44 @@ class SwapiService
         return $data;
     }
 
+    public function fetchFilmById(int $id): array
+    {
+        $endpoint = $this->baseUrl . $this->routes['films'] . $id . '/';
+        $filmData = $this->request($endpoint);
+
+        $releaseDate = new \DateTime($filmData['release_date']);
+        $now = new \DateTime();
+        $diff = $releaseDate->diff($now);
+
+        $filmData['interval'] = [
+            'years' => $diff->y,
+            'months' => $diff->m,
+            'days' => $diff->d,
+        ];
+
+        $filmData['character_names'] = $this->getCharacterNames($filmData['characters']);
+
+        unset($filmData['characters']);
+
+        return $filmData;
+    }
+
+    private function getCharacterNames(array $urls): array
+    {
+        $names = [];
+
+        foreach ($urls as $url) {
+            try {
+                $personData = $this->request($url);
+                $names[] = $personData['name'];
+            } catch (Exception $e) {
+                $names[] = 'Unknown Character';
+            }
+        }
+
+        return $names;
+    }
+
     private function request(string $url): array
     {
         $ch = curl_init();

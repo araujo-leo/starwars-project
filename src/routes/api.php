@@ -7,6 +7,6 @@ use App\Controller\FilmController;
 $router = new Router();
 
 $router->get('/api/films', [FilmController::class, 'listFilms']);
-$router->get('/api/film-details', [FilmController::class, 'getFilmDetails']);
+$router->get('/api/films/{id}', [FilmController::class, 'getFilmsById']);
 
 return $router;
