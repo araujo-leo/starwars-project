@@ -11,9 +11,9 @@ class Database {
         if (!self::$instance) {
             try {
                 $host = $_ENV['DB_HOST'];
-                $db   = $_ENV['DB_NAME'];
-                $user = $_ENV['DB_USER'];
-                $pass = $_ENV['DB_PASS'];
+                $db   = $_ENV['DB_DATABASE'];
+                $user = $_ENV['DB_USERNAME'];
+                $pass = $_ENV['DB_PASSWORD'];
 
                 $dsn = "mysql:host={$host};dbname={$db};charset=utf8mb4";
 
