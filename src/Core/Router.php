@@ -30,9 +30,28 @@ class Router
 
             $controller = new $controllerClass();
             echo $controller->$action();
-        } else {
-            http_response_code(404);
-            echo "Página não encontrada (404)";
         }
+
+        foreach ($this->routes[$method] as $routePath => $callback) {
+            if (strpos($routePath, '{') === false) {
+                continue;
+            }
+
+            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([^/]+)', $routePath);
+            $pattern = "#^" . $pattern . "$#";
+
+            if (preg_match($pattern, $uri, $matches)) {
+                array_shift($matches);
+
+                [$controllerClass, $action] = $callback;
+                $controller = new $controllerClass();
+
+                echo $controller->$action(...$matches);
+                return;
+            }
+        }
+
+        http_response_code(404);
+        echo json_encode(['error' => 'Endpoint not found']);
     }
 }
