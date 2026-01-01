@@ -2,110 +2,81 @@
 
 namespace App\Service;
 
+use DateTime;
 use Exception;
 
-class SwapiService
+class SwapiService extends BaseApiService
 {
     private string $baseUrl;
 
     private array $routes = [
         'films' => 'films/',
+        'characters' => 'people/',
+        'planets' => 'planets/',
+        'species' => 'species/',
+        'starships' => 'starships/',
+        'vehicles' => 'vehicles/',
     ];
 
     public function __construct()
     {
-        if (empty($_ENV['API_SWAPI'])) {
-            throw new Exception("Environment variable API_SWAPI is not set.");
-        }
-        $this->baseUrl = $_ENV['API_SWAPI'];
+        $this->baseUrl = $_ENV['API_SWAPI'] ?? 'https://swapi.dev/api/';
     }
 
     public function fetchAllFilms(): array
     {
-        $endpoint = $this->baseUrl . $this->routes['films'];
-        $data = $this->request($endpoint);
-        $today = new \DateTime();
-        foreach($data['results'] as &$film) {
-            $film['id'] = basename($film["url"]);
-            $releaseDate = new \DateTime($film['release_date']);
-            $interval = $releaseDate->diff($today);
-            $film['interval'] = [
-                'years' => $interval->y,
-                'months' => $interval->m,
-                'days' => $interval->d,
-            ];
+        $url = $this->baseUrl . $this->routes['films'];
+        $data = $this->request($url);
+
+        foreach ($data['results'] as &$film) {
+            $film['id'] = $this->extractIdFromUrl($film['url']);
         }
-        unset($film);
+
         return $data;
     }
 
     public function fetchFilmById(int $id): array
     {
-        $endpoint = $this->baseUrl . $this->routes['films'] . $id . '/';
-        $filmData = $this->request($endpoint);
+        $url = $this->baseUrl . $this->routes['films'] . $id . '/';
+        $filmData = $this->request($url);
 
-        $releaseDate = new \DateTime($filmData['release_date']);
-        $now = new \DateTime();
-        $diff = $releaseDate->diff($now);
-
+        $releaseDate = new DateTime($filmData['release_date']);
+        $diff = $releaseDate->diff(new DateTime());
         $filmData['interval'] = [
             'years' => $diff->y,
             'months' => $diff->m,
             'days' => $diff->d,
         ];
 
-        $filmData['character_names'] = $this->getCharacterNames($filmData['characters']);
+        $filmData['id'] = $this->extractIdFromUrl($filmData['url']);
 
-        unset($filmData['characters']);
+        $relatedFields = ['characters', 'planets', 'starships', 'vehicles', 'species'];
+
+        foreach ($relatedFields as $field) {
+            if (isset($filmData[$field]) && is_array($filmData[$field])) {
+                $filmData[$field] = $this->enrichListWithLocalUrls($filmData[$field]);
+            }
+        }
 
         return $filmData;
     }
 
-    private function getCharacterNames(array $urls): array
+    public function fetchCharacterById(int $id): array
     {
-        $names = [];
+        $url = $this->baseUrl . $this->routes['characters'] . $id . '/';
+        $characterData = $this->request($url);
 
-        foreach ($urls as $url) {
-            try {
-                $personData = $this->request($url);
-                $names[] = $personData['name'];
-            } catch (Exception $e) {
-                $names[] = 'Unknown Character';
+
+        $relatedFields = ['characters', 'planets', 'starships', 'vehicles', 'species'];
+
+        foreach ($relatedFields as $field) {
+            if (isset($characterData[$field]) && is_array($characterData[$field])) {
+                $characterData[$field] = $this->enrichListWithLocalUrls($characterData[$field]);
             }
         }
 
-        return $names;
+        return $characterData;
     }
 
-    private function request(string $url): array
-    {
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_FOLLOWLOCATION => true,
-        ]);
 
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlError = curl_error($ch);
-        curl_close($ch);
-
-        if ($response === false) {
-            throw new Exception("Connection Error: " . $curlError);
-        }
-
-        if ($httpCode >= 400) {
-            throw new Exception("API Error (Status $httpCode)");
-        }
-
-        $data = json_decode($response, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception("JSON Parse Error: " . json_last_error_msg());
-        }
-
-        return $data;
-    }
 }
