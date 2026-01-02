@@ -107,7 +107,7 @@
     <div class="container mt-4 mb-5">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item text-white"><a href="/" class="text-decoration-none">Films</a></li>
+                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-warning">Films</a></li>
                 <li class="breadcrumb-item active text-white" aria-current="page" id="breadcrumb-title">Loading...</li>
             </ol>
         </nav>
