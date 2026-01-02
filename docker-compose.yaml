@@ -1,0 +1,36 @@
+services:
+  starwars_app:
+    build: .
+    container_name: "starwars_app"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    env_file:
+        - .env
+    depends_on:
+      - starwars_db
+    networks:
+      - starwars_network
+
+  starwars_db:
+    image: mysql:latest
+    container_name: "starwars_db"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-starwars_db}
+      MYSQL_USER: ${DB_USERNAME:-starwars_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-starwars_pass}
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - starwars_network
+
+volumes:
+  db_data: {}
+
+networks:
+    starwars_network:
+        driver: bridge
