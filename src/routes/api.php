@@ -12,8 +12,8 @@ use App\Controller\SpeciesController;
 $router->get('/api/films', [FilmController::class, 'listFilms']);
 $router->get('/api/films/{id}', [FilmController::class, 'getFilmsById']);
 
-$router->get('/api/characters', [CharacterController::class, 'listCharacters']);
-$router->get('/api/characters/{id}', [CharacterController::class, 'getCharacter']);
+$router->get('/api/people', [CharacterController::class, 'listCharacters']);
+$router->get('/api/people/{id}', [CharacterController::class, 'getCharacter']);
 
 $router->get('/api/planets', [PlanetController::class, 'listPlanets']);
 $router->get('/api/planets/{id}', [PlanetController::class, 'getPlanet']);

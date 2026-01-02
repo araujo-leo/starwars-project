@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Controller;
+use App\Core\View;
 use App\Service\SwapiService;
 
 class CharacterController
 {
+    public function index(){
+        return View::render("characters");
+    }
     public function listCharacters() {
         try {
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $swapiService = new SwapiService();
-            $characters = $swapiService->fetchAllCharacters();
+            $characters = $swapiService->fetchAllCharacters($page);
             header('Content-Type: application/json');
             echo json_encode([
                 'succes' => true,

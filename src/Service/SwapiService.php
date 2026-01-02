@@ -55,9 +55,9 @@ class SwapiService extends BaseApiService
         return $filmData;
     }
 
-    public function fetchAllCharacters(): array
+    public function fetchAllCharacters(int $page = 1): array
     {
-        return $this->fetchAll('characters');
+        return $this->fetchAll('characters', $page);
     }
 
     public function fetchAllPlanets(): array
@@ -124,16 +124,25 @@ class SwapiService extends BaseApiService
         return $this->fetchById('vehicles',$id);
     }
 
-    private function fetchAll(string $routeKey): array
+    private function fetchAll(string $routeKey, int $page = 1): array
     {
-        $url = $this->baseUrl . $this->routes[$routeKey];
+        $url = $this->baseUrl . $this->routes[$routeKey] . '?page=' . $page;
         $data = $this->request($url);
 
         $appUrl = $_ENV['APP_URL'] ?? 'http://localhost:8000';
         $resourcePath = rtrim($this->routes[$routeKey], '/');
 
-        foreach ($data['results'] as &$item) {
+        if (!empty($data['next'])) {
+            $query = parse_url($data['next'], PHP_URL_QUERY);
+            $data['next'] = "{$appUrl}/api/{$resourcePath}?{$query}";
+        }
 
+        if (!empty($data['previous'])) {
+            $query = parse_url($data['previous'], PHP_URL_QUERY);
+            $data['previous'] = "{$appUrl}/api/{$resourcePath}?{$query}";
+        }
+
+        foreach ($data['results'] as &$item) {
             $id = $this->extractIdFromUrl($item['url']);
             $item['id'] = $id;
             $item['url'] = "{$appUrl}/api/{$resourcePath}/{$id}";
