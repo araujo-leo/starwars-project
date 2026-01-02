@@ -22,8 +22,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Filmes</a></li>
-                <li class="nav-item"><a class="nav-link" href="/characters">Personagens</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Films</a></li>
+                <li class="nav-item"><a class="nav-link" href="/characters">People</a></li>
             </ul>
         </div>
     </div>

@@ -8,7 +8,12 @@ use Exception;
 
 class FilmController {
     public function index(){
-        return View::render("home");
+        return View::render("films/index");
+    }
+
+    public function show($id)
+    {
+        return View::render("films/show", ['id' => $id]);
     }
     public function listFilms() {
         try {
