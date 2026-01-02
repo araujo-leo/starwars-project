@@ -7,7 +7,11 @@ use App\Service\SwapiService;
 class CharacterController
 {
     public function index(){
-        return View::render("characters");
+        return View::render("characters/index");
+    }
+
+    public function show($id){
+        return View::render("characters/show", ['id' => $id]);
     }
     public function listCharacters() {
         try {

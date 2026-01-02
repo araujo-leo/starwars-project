@@ -8,3 +8,5 @@ $router->get('/filme/{id}', [FilmController::class, 'show']);
 
 
 $router->get('/characters', [CharacterController::class, 'index']);
+$router->get('/character/{id}', [CharacterController::class, 'show']);
+
