@@ -1,11 +1,15 @@
 <?php
 namespace App\Controller;
 
+use App\Core\View;
 use App\Service\SwapiService;
 use App\Config\Database;
 use Exception;
 
 class FilmController {
+    public function index(){
+        return View::render("home");
+    }
     public function listFilms() {
         try {
             $swapiService = new SwapiService();

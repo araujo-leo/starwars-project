@@ -8,7 +8,6 @@ use App\Controller\StarshipController;
 use App\Controller\VehicleController;
 use App\Controller\SpeciesController;
 
-$router = new Router();
 
 $router->get('/api/films', [FilmController::class, 'listFilms']);
 $router->get('/api/films/{id}', [FilmController::class, 'getFilmsById']);
@@ -27,4 +26,3 @@ $router->get('/api/vehicles/{id}', [VehicleController::class, 'getVehicle']);
 
 $router->get('/api/species', [SpeciesController::class, 'listSpecies']);
 $router->get('/api/species/{id}', [SpeciesController::class, 'getSpecies']);
-return $router;

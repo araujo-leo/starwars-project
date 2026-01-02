@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+use App\Core\Router;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -13,6 +14,9 @@ if ($_ENV['APP_DEBUG'] ?? false) {
     error_reporting(E_ALL);
 }
 
-$router = require __DIR__ . '/src/routes/api.php';
+$router = new Router();
+
+require __DIR__ . '/src/routes/web.php';
+require __DIR__ . '/src/routes/api.php';
 
 $router->dispatch();

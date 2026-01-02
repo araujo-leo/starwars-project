@@ -30,6 +30,8 @@ class Router
 
             $controller = new $controllerClass();
             echo $controller->$action();
+
+            return;
         }
 
         foreach ($this->routes[$method] as $routePath => $callback) {
