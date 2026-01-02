@@ -224,7 +224,11 @@
                 const data = response.data || response;
                 $(`#${elementId}`).text(data.name).removeClass('loading-text');
 
-                $(`#link-${elementId}`).attr('href', `/${endpointName}/${id}`).removeClass('disabled');
+                let viewPath = endpointName;
+                if (endpointName === 'people') {
+                    viewPath = 'character';
+                }
+                $(`#link-${elementId}`).attr('href', `/${viewPath}/${id}`).removeClass('disabled');
             }).fail(function() {
                 $(`#${elementId}`).text(`Unidentified #${id}`).removeClass('loading-text').addClass('text-muted');
             });
