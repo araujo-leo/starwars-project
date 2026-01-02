@@ -3,11 +3,9 @@
     <style>
         body { background-color: #121212 !important; color: #e0e0e0 !important; }
 
-        /* Typography & Colors */
         .text-starwars { color: #FFE81F; text-shadow: 0 0 10px rgba(255, 232, 31, 0.3); }
         .text-accent { color: #4db8ff; }
 
-        /* Components */
         .crawl-container {
             background-color: #000;
             border: 2px solid #FFE81F;
@@ -33,7 +31,6 @@
         .info-label { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
         .info-value { color: #fff; font-size: 1rem; font-weight: 500; }
 
-        /* TABS Styling */
         .nav-tabs { border-bottom: 1px solid #333; margin-bottom: 20px; }
         .nav-link { color: #888; border: none; font-weight: bold; transition: 0.3s; padding: 10px 20px; }
         .nav-link:hover { color: #e0e0e0; background-color: rgba(255, 255, 255, 0.05); border-radius: 5px; }
@@ -43,7 +40,6 @@
             border-bottom: 3px solid #FFE81F;
         }
 
-        /* DATA CHIPS (Cards compactos para lista) */
         .data-chip {
             background-color: #1e1e1e;
             border: 1px solid #333;
@@ -76,7 +72,7 @@
         }
         .chip-content {
             flex-grow: 1;
-            min-width: 0; /* Garante que o text-truncate funcione */
+            min-width: 0;
         }
         .chip-name {
             font-weight: bold;
@@ -91,7 +87,6 @@
             color: #777;
         }
 
-        /* Animação de Loading no Texto */
         .loading-text {
             display: inline-block;
             width: 80px;
@@ -105,13 +100,15 @@
             50% { opacity: 1; }
             100% { opacity: 0.5; }
         }
+
+
     </style>
 
     <div class="container mt-4 mb-5">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Films</a></li>
-                <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-title">Loading...</li>
+                <li class="breadcrumb-item text-white"><a href="/" class="text-decoration-none">Films</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page" id="breadcrumb-title">Loading...</li>
             </ol>
         </nav>
 
@@ -192,7 +189,6 @@
             'species': 'species'
         };
 
-        // Helpers
         function episodeNumberToRoman(num) {
             const roman = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
             let str = '';

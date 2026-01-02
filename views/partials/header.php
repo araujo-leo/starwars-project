@@ -10,6 +10,44 @@
 
     <style>
         body { background-color: #f8f9fa; }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0b0b0b;
+            border-radius: 10px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(
+                    180deg,
+                    #FFE81F,
+                    #d4b600
+            );
+            border-radius: 10px;
+            border: 2px solid #0b0b0b;
+            box-shadow:
+                    0 0 6px rgba(255, 232, 31, 0.6),
+                    inset 0 0 4px rgba(0,0,0,0.6);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(
+                    180deg,
+                    #fff2a8,
+                    #FFE81F
+            );
+            box-shadow:
+                    0 0 10px rgba(255, 232, 31, 0.9);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: #0b0b0b;
+        }
     </style>
 </head>
 <body>
