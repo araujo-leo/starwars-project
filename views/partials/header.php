@@ -65,7 +65,7 @@
                 <li class="nav-item"><a class="nav-link" href="/planets">Planets</a></li>
                 <li class="nav-item"><a class="nav-link" href="/species">Species</a></li>
                 <li class="nav-item"><a class="nav-link" href="/vehicles">Vehicles</a></li>
-
+                <li class="nav-item"><a class="nav-link" href="/starships">Starships</a></li>
             </ul>
         </div>
     </div>
