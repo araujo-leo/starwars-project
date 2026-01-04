@@ -3,10 +3,11 @@ CREATE DATABASE IF NOT EXISTS starwars_db;
 USE starwars_db;
 
 CREATE TABLE IF NOT EXISTS logs_api (
-                                        idLog INT AUTO_INCREMENT PRIMARY KEY,
-                                        levelLog VARCHAR(40) NOT NULL,
+    idLog INT AUTO_INCREMENT PRIMARY KEY,
+    levelLog VARCHAR(40) NOT NULL,
     requestUrlLog VARCHAR(255) NOT NULL,
     methodRequestLog ENUM('GET', 'POST', 'PUT', 'DELETE') NOT NULL,
     statusCodeLog INT NOT NULL,
+    responseTimeLog FLOAT NULL,
     createdAtLog TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
