@@ -27,7 +27,7 @@ A simple, robust web application to browse Star Wars films. Built with **Vanilla
 
 ### Manual Installation
 
-1.  Start a MySQL database and import `database/init.sql`.
+1.  Start a MySQL database and import `src/Config/init.sql`.
 2.  Update `.env` with your database credentials.
 3.  Run the PHP server: `php -S localhost:8080 -t`
 
@@ -49,6 +49,3 @@ The internal API acts as a proxy to the SWAPI to handle logging and formatting.
 | `GET` | `/api/vehicles/{id}` | Get vehicle details |
 | `GET` | `/api/species` | List all species |
 | `GET` | `/api/species/{id}` | Get species details |
-
----
-*Developed as a technical assessment.*
