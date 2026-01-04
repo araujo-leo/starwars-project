@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Core;
+use App\Controller\ErrorController;
 
 class Router
 {
@@ -16,43 +17,48 @@ class Router
         $this->routes['POST'][$path] = $callback;
     }
 
-    public function dispatch(): void
+    public function dispatch()
     {
-        $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $method = $_SERVER['REQUEST_METHOD'];
 
-        if ($uri !== '/' && substr($uri, -1) === '/') {
-            $uri = rtrim($uri, '/');
-        }
+        try {
+            if (isset($this->routes[$method])) {
+                foreach ($this->routes[$method] as $route => $callback) {
 
-        if (isset($this->routes[$method][$uri])) {
-            [$controllerClass, $action] = $this->routes[$method][$uri];
+                    $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9_]+)', $route);
+                    $pattern = "#^" . $pattern . "$#";
 
-            $controller = new $controllerClass();
-            echo $controller->$action();
+                    if (preg_match($pattern, $uri, $matches)) {
+                        array_shift($matches);
 
-            return;
-        }
+                        if ($callback instanceof \Closure) {
+                            echo call_user_func_array($callback, $matches);
+                            return;
+                        }
 
-        foreach ($this->routes[$method] as $routePath => $callback) {
-            if (strpos($routePath, '{') === false) {
-                continue;
+                        if (is_array($callback)) {
+                            [$controllerClass, $action] = $callback;
+
+                            if (class_exists($controllerClass)) {
+                                $controller = new $controllerClass();
+
+                                if (method_exists($controller, $action)) {
+                                    echo $controller->$action(...$matches);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([^/]+)', $routePath);
-            $pattern = "#^" . $pattern . "$#";
+            $errorController = new ErrorController();
+            echo $errorController->notFound();
 
-            if (preg_match($pattern, $uri, $matches)) {
-                array_shift($matches);
-
-                [$controllerClass, $action] = $callback;
-                $controller = new $controllerClass();
-
-                echo $controller->$action(...$matches);
-                return;
-            }
+        } catch (\Throwable $e) {
+            $errorController = new ErrorController();
+            echo $errorController->internalServerError($e);
         }
-
-        echo json_encode(['error' => 'Endpoint not found'], 404);
     }
 }
