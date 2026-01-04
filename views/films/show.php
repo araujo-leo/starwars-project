@@ -175,6 +175,7 @@
                             <div class="stat-box">
                                 <div class="info-label">Release Date</div>
                                 <div class="info-value" id="film-date"></div>
+                                <div class="text-small-xl mt-1" id="film-age" style="font-size: 0.85rem; letter-spacing: 0.5px;"></div>
                             </div>
                         </div>
                     </div>
@@ -344,6 +345,24 @@
 
                 const romanEp = episodeNumberToRoman(film.episode_id);
                 $('#film-img').attr('src', `https://placehold.co/400x550/000000/FFE81F/?text=EPISODE+${romanEp}&font=montserrat`);
+
+
+                if (film.interval) {
+                    let parts = [];
+                    const i = film.interval;
+
+                    if (i.years > 0) parts.push(`${i.years} years`);
+                    if (i.months > 0) parts.push(`${i.months} months`);
+                    if (i.days > 0) parts.push(`${i.days} days`);
+
+                    const timeString = parts.join(', ');
+
+                    if (timeString) {
+                        $('#film-age').text(timeString + ' ago');
+                    } else {
+                        $('#film-age').text('Released recently');
+                    }
+                }
 
                 renderRelatedList('#list-characters', film.characters, 'characters', 'Char');
                 renderRelatedList('#list-planets', film.planets, 'planets', 'Plan');
