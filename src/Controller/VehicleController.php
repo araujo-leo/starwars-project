@@ -2,16 +2,38 @@
 
 namespace App\Controller;
 
+use App\Core\View;
 use App\Model\Log;
 use App\Service\SwapiService;
 
 class VehicleController
 {
+    public function index() :string
+    {
+        try {
+            return View::render("vehicles/index");
+        } catch (\Exception $e) {
+            error_log("Erro ao renderizar a view de personagens: " . $e->getMessage());
+            http_response_code(500);
+            return View::render("errors/500");
+        }
+    }
+
+    public function show(int $id) :string
+    {
+        try{
+            return View::render("vehicles/show", ['id' => $id]);
+        } catch(\Exception $e){
+            error_log("Erro ao renderizar a view do personagem: " . $e->getMessage());
+            return View::render("errors/500");
+        }
+
+    }
     public function listVehicles() {
         try {
             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $swapiService = new SwapiService();
-            $vehicles = $swapiService->fetchAllVehicles();
+            $vehicles = $swapiService->fetchAllVehicles($page);
             header('Content-Type: application/json');
 
             Log::save('INFO', "/vehicles?page=$page");

@@ -75,9 +75,9 @@ class SwapiService extends BaseApiService
         return $this->fetchAll('starships');
     }
 
-    public function fetchAllVehicles(): array
+    public function fetchAllVehicles($page): array
     {
-        return $this->fetchAll('starships');
+        return $this->fetchAll('vehicles', $page);
     }
 
     public function fetchFilmById(int $id): array
