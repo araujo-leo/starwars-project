@@ -18,7 +18,7 @@ $router->get('/planets', [PlanetController::class, 'index']);
 $router->get('/planets/{id}', [PlanetController::class, 'show']);
 
 $router->get('/species', [SpeciesController::class, 'index']);
-$router->get('/specie/{id}', [SpeciesController::class, 'show']);
+$router->get('/species/{id}', [SpeciesController::class, 'show']);
 
 $router->get('/starships', [StarshipController::class, 'index']);
 $router->get('/starship/{id}', [StarshipController::class, 'show']);

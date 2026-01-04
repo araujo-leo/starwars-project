@@ -65,9 +65,9 @@ class SwapiService extends BaseApiService
         return $this->fetchAll('planets', $page);
     }
 
-    public function fetchAllSpecies(): array
+    public function fetchAllSpecies(int $page): array
     {
-        return $this->fetchAll('species');
+        return $this->fetchAll('species', $page);
     }
 
     public function fetchAllStarships(): array
