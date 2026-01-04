@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS logs_api (
     requestUrlLog VARCHAR(255) NOT NULL,
     methodRequestLog ENUM('GET', 'POST', 'PUT', 'DELETE') NOT NULL,
     statusCodeLog INT NOT NULL,
-    responseTimeLog FLOAT NULL,
+    responseTime FLOAT NULL,
     createdAtLog TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

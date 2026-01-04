@@ -14,6 +14,8 @@ abstract class BaseApiService
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false
             // CURLOPT_SSL_VERIFYPEER => false
         ]);
 
