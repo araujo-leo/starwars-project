@@ -223,7 +223,6 @@
         };
 
         function fetchItemName(type, id, elementId) {
-            // Normaliza 'residents' para 'people' se necessário
             const endpoint = resourceMap[type] || type;
 
             $.ajax({
@@ -234,10 +233,9 @@
                 const data = response.data || response;
                 const displayText = data.title || data.name;
 
-                // Define o link correto para o frontend (assumindo que sua rota de personagem é /character/{id})
                 let frontendLink = endpoint;
-                if(endpoint === 'people') frontendLink = 'character'; // Ajuste conforme sua rota real
-                if(endpoint === 'films') frontendLink = 'filme';
+                if(endpoint === 'people') frontendLink = 'characters';
+                if(endpoint === 'films') frontendLink = 'films';
 
                 $(`#${elementId}`).text(displayText).removeClass('loading-text');
                 $(`#link-${elementId}`).attr('href', `/${frontendLink}/${id}`).removeClass('disabled');
@@ -287,7 +285,6 @@
                 `;
                 container.append(html);
 
-                // Dispara a busca do nome individualmente para não travar a página
                 fetchItemName(type, id, elementId);
             });
         }

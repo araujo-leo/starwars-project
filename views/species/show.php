@@ -249,8 +249,8 @@
                 const displayText = data.title || data.name;
 
                 let frontendLink = endpoint;
-                if(endpoint === 'people') frontendLink = 'character';
-                if(endpoint === 'films') frontendLink = 'filme';
+                if(endpoint === 'people') frontendLink = 'characters';
+                if(endpoint === 'films') frontendLink = 'films';
 
                 $(`#${elementId}`).text(displayText).removeClass('loading-text');
                 $(`#link-${elementId}`).attr('href', `/${frontendLink}/${id}`).removeClass('disabled');

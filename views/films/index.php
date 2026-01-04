@@ -150,7 +150,7 @@
                         filmCard.find('.interval-badge').hide();
                     }
 
-                    filmCard.find('a').attr('href', '/filme/' + film.id);
+                    filmCard.find('a').attr('href', '/films/' + film.id);
 
                     filmsList.append(filmCard);
                 });

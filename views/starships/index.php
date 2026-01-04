@@ -101,7 +101,7 @@
 
                     const html = `
                     <div class="col">
-                        <a href="/starship/${id}" class="ship-card rounded overflow-hidden">
+                        <a href="/starships/${id}" class="ship-card rounded overflow-hidden">
                             <img src="${imgUrl}" class="card-img-top" alt="${ship.name}">
                             <div class="card-body">
                                 <div class="ship-name text-truncate">${ship.name}</div>

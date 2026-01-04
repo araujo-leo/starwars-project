@@ -1,8 +1,15 @@
 <?php include __DIR__ . '/../partials/header.php'; ?>
 
     <style>
-        body { background-color: #121212 !important; color: #e0e0e0 !important; }
-        .text-starwars { color: #FFE81F; text-shadow: 0 0 10px rgba(255, 232, 31, 0.3); }
+        body {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+
+        .text-starwars {
+            color: #FFE81F;
+            text-shadow: 0 0 10px rgba(255, 232, 31, 0.3);
+        }
 
         .species-card {
             background-color: #1e1e1e;
@@ -12,16 +19,19 @@
             text-decoration: none;
             display: block;
         }
+
         .species-card:hover {
             transform: translateY(-5px);
             border-color: #FFE81F;
         }
+
         .card-img-top {
             height: 180px;
             object-fit: cover;
             border-bottom: 1px solid #333;
             background-color: #000;
         }
+
         .card-body {
             padding: 15px;
         }

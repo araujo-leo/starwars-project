@@ -264,7 +264,7 @@
 
                 let frontendLink = endpoint;
                 if(endpoint === 'people') frontendLink = 'character';
-                if(endpoint === 'films') frontendLink = 'filme';
+                if(endpoint === 'films') frontendLink = 'films';
 
                 $(`#${elementId}`).text(displayText).removeClass('loading-text');
                 $(`#link-${elementId}`).attr('href', `/${frontendLink}/${id}`).removeClass('disabled');

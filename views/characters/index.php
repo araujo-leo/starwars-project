@@ -150,7 +150,7 @@
                     }
 
                     if (id) {
-                        card.find('a').attr('href', `/character/${id}`);
+                        card.find('a').attr('href', `/characters/${id}`);
                     }
 
                     $('#characters-list').append(card);

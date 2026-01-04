@@ -1,8 +1,15 @@
 <?php include __DIR__ . '/../partials/header.php'; ?>
 
     <style>
-        body { background-color: #121212 !important; color: #e0e0e0 !important; }
-        .text-starwars { color: #FFE81F; text-shadow: 0 0 10px rgba(255, 232, 31, 0.3); }
+        body {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+
+        .text-starwars {
+            color: #FFE81F;
+            text-shadow: 0 0 10px rgba(255, 232, 31, 0.3);
+        }
 
         .vehicle-card {
             background-color: #1e1e1e;
@@ -22,9 +29,23 @@
             border-bottom: 1px solid #333;
             background-color: #000;
         }
-        .card-body { padding: 15px; }
-        .vehicle-name { color: #fff; font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
-        .vehicle-model { color: #888; font-size: 0.85rem; text-transform: uppercase; }
+        .card-body {
+            padding: 15px;
+        }
+
+        .vehicle-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .vehicle-model {
+            color: #888;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
     </style>
 
     <div class="container mt-4 mb-5">
@@ -54,7 +75,7 @@
 
         $(document).ready(function() {
             $.ajax({
-                url: '/api/vehicles', // Certifique-se que sua rota retorna a lista (results)
+                url: '/api/vehicles',
                 method: 'GET',
                 dataType: 'json'
             }).done(function(response) {
@@ -73,7 +94,7 @@
 
                     const html = `
                     <div class="col">
-                        <a href="/vehicle/${id}" class="vehicle-card rounded overflow-hidden">
+                        <a href="/vehicles/${id}" class="vehicle-card rounded overflow-hidden">
                             <img src="${imgUrl}" class="card-img-top" alt="${vehicle.name}">
                             <div class="card-body">
                                 <div class="vehicle-name text-truncate">${vehicle.name}</div>

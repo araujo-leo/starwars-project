@@ -77,11 +77,9 @@
                     const card = $(templateHTML);
                     card.find('.name-display').text(item.name);
 
-                    // Campos Específicos de Planeta
                     card.find('.field-1').text(item.climate);
                     card.find('.field-2').text(item.terrain);
 
-                    // Imagem e Link
                     let id = item.id || extractIdFromUrl(item.url);
                     card.find('img').attr('src', `https://placehold.co/100x100/101010/FFE81F/?text=PL&font=montserrat`);
                     if (id) card.find('a').attr('href', `/planets/${id}`);
@@ -89,7 +87,6 @@
                     $('#list-container').append(card);
                 });
 
-                // Paginação
                 const nextLink = response.next || (response.data && response.data.next);
                 const prevLink = response.previous || (response.data && response.data.previous);
 

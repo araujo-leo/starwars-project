@@ -3,8 +3,14 @@
     <style>
         body { background-color: #121212 !important; color: #e0e0e0 !important; }
 
-        .text-starwars { color: #FFE81F; text-shadow: 0 0 10px rgba(255, 232, 31, 0.3); }
-        .text-accent { color: #4db8ff; }
+        .text-starwars {
+            color: #FFE81F;
+            text-shadow: 0 0 10px rgba(255, 232, 31, 0.3);
+        }
+
+        .text-accent {
+            color: #4db8ff;
+        }
 
         .crawl-container {
             background-color: #000;
@@ -27,13 +33,43 @@
             text-align: center;
             transition: transform 0.2s;
         }
-        .stat-box:hover { transform: translateY(-3px); border-color: #FFE81F; }
-        .info-label { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-        .info-value { color: #fff; font-size: 1rem; font-weight: 500; }
+        .stat-box:hover {
+            transform: translateY(-3px);
+            border-color: #FFE81F;
+        }
 
-        .nav-tabs { border-bottom: 1px solid #333; margin-bottom: 20px; }
-        .nav-link { color: #888; border: none; font-weight: bold; transition: 0.3s; padding: 10px 20px; }
-        .nav-link:hover { color: #e0e0e0; background-color: rgba(255, 255, 255, 0.05); border-radius: 5px; }
+        .info-label {
+            color: #888;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .nav-link {
+            color: #888;
+            border: none;
+            font-weight: bold;
+            transition: 0.3s;
+            padding: 10px 20px;
+        }
+
+        .nav-link:hover {
+            color: #e0e0e0;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
         .nav-link.active {
             background-color: transparent !important;
             color: #FFE81F !important;
@@ -226,7 +262,7 @@
 
                 let viewPath = endpointName;
                 if (endpointName === 'people') {
-                    viewPath = 'character';
+                    viewPath = 'characters';
                 }
                 $(`#link-${elementId}`).attr('href', `/${viewPath}/${id}`).removeClass('disabled');
             }).fail(function() {
@@ -309,7 +345,6 @@
                 const romanEp = episodeNumberToRoman(film.episode_id);
                 $('#film-img').attr('src', `https://placehold.co/400x550/000000/FFE81F/?text=EPISODE+${romanEp}&font=montserrat`);
 
-                // Chamadas para as listas
                 renderRelatedList('#list-characters', film.characters, 'characters', 'Char');
                 renderRelatedList('#list-planets', film.planets, 'planets', 'Plan');
                 renderRelatedList('#list-starships', film.starships, 'starships', 'Ship');
