@@ -5,9 +5,10 @@ use App\Core\View;
 use App\Service\SwapiService;
 use App\Model\Log;
 
-class CharacterController
+class CharacterController extends BaseController
 {
-    public function index(){
+    public function index() :string
+    {
         try {
             return View::render("characters/index");
         } catch (\Exception $e) {
@@ -18,7 +19,8 @@ class CharacterController
 
     }
 
-    public function show($id){
+    public function show(int $id) :string
+    {
         try{
             return View::render("characters/show", ['id' => $id]);
         } catch(\Exception $e){
@@ -27,47 +29,38 @@ class CharacterController
         }
 
     }
-    public function listCharacters() {
+    public function listCharacters() :void
+    {
         try {
             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $swapiService = new SwapiService();
             $characters = $swapiService->fetchAllCharacters($page);
-            header('Content-Type: application/json');
-
-            Log::save('INFO', "/characters?page=$page");
-            echo json_encode([
-                'succes' => true,
-                'data' => $characters
+            $this->jsonResponse([
+                'success' => true,
+                'data' => $characters,
             ], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
             error_log($e->getMessage());
-            Log::save('ERROR', "/characters" );
-            echo json_encode([
-                'error' => true,
+            $this->jsonResponse([
+                'success' => false,
                 'message' => 'Failed to fetch characters'
             ], 500);
         }
     }
-    public function getCharacter($id)
+    public function getCharacter(int $id) :void
     {
         try {
             $swapiService = new SwapiService();
             $characters = $swapiService->fetchCharacterById($id);
-            header('Content-Type: application/json');
-
-            Log::save('INFO', "/characters/$id");
-            echo json_encode([
+            $this->jsonResponse([
                 'success' => true,
-                'data' => $characters
-            ], 200);
+                'data' => $characters,
+            ], 200 );
         } catch (\Exception $e) {
-            http_response_code(500);
             error_log($e->getMessage());
-            Log::save('ERROR', "/characters/$id" );
-            echo json_encode([
-                'error' => true,
-                'message' => 'Failed to fetch characters'
+            $this->jsonResponse([
+                'success' => false,
+                'message' => 'Failed to fetch character'
             ], 500);
         }
     }

@@ -3,6 +3,8 @@
 use Dotenv\Dotenv;
 use App\Core\Router;
 
+define('START_TIME', microtime(true));
+
 require __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__);

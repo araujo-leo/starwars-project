@@ -6,7 +6,7 @@ use App\Core\View;
 use App\Model\Log;
 use App\Service\SwapiService;
 
-class VehicleController
+class VehicleController extends BaseController
 {
     public function index() :string
     {
@@ -29,49 +29,39 @@ class VehicleController
         }
 
     }
-    public function listVehicles() {
+    public function listVehicles() :void
+    {
         try {
             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $swapiService = new SwapiService();
             $vehicles = $swapiService->fetchAllVehicles($page);
-            header('Content-Type: application/json');
-
-            Log::save('INFO', "/vehicles?page=$page");
-            echo json_encode([
-                'succes' => true,
-                'data' => $vehicles
+            $this->jsonResponse([
+                'success' => true,
+                'data' => $vehicles,
             ], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
             error_log($e->getMessage());
-
-            Log::save('ERROR', "/vehicles?page=$page");
-            echo json_encode([
-                'error' => true,
+            $this->jsonResponse([
+                'success' => false,
                 'message' => 'Failed to fetch vehicles'
             ], 500);
         }
     }
-    public function getVehicle($id)
+    public function getVehicle(int $id) :void
     {
         try {
             $swapiService = new SwapiService();
             $vehicles = $swapiService->fetchVehicleById($id);
-            header('Content-Type: application/json');
-
-            Log::save('INFO', "/vehicles/$id");
-            echo json_encode([
+            $this->jsonResponse([
                 'success' => true,
-                'data' => $vehicles
-            ], 200);
+                'data' => $vehicles,
+            ], 200 );
         } catch (\Exception $e) {
             http_response_code(500);
             error_log($e->getMessage());
-
-            Log::save('ERROR', "/vehicles/$id");
-            echo json_encode([
-                'error' => true,
-                'message' => 'Failed to fetch vehicles'
+            $this->jsonResponse([
+                'success' => false,
+                'message' => 'Failed to fetch vehicle'
             ], 500);
         }
     }

@@ -6,7 +6,7 @@ use App\Core\View;
 use App\Model\Log;
 use App\Service\SwapiService;
 
-class StarshipController
+class StarshipController extends BaseController
 {
     public function index() :string
     {
@@ -36,44 +36,33 @@ class StarshipController
             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $swapiService = new SwapiService();
             $starships = $swapiService->fetchAllStarships($page);
-            header('Content-Type: application/json');
-
-            Log::save('INFO', "/starships?page=$page");
-            echo json_encode([
-                'succes' => true,
-                'data' => $starships
-            ], 200);
+            $this->jsonResponse([
+                'success' => true,
+                'data' => $starships,
+            ],200);
         } catch (\Exception $e) {
             http_response_code(500);
             error_log($e->getMessage());
-
-            Log::save('ERROR', "/starships?page=$page");
-            echo json_encode([
-                'error' => true,
+            $this->jsonResponse([
+                'success' => false,
                 'message' => 'Failed to fetch starships'
             ], 500);
         }
     }
-    public function getStarship($id) :void
+    public function getStarship(int $id) :void
     {
         try {
             $swapiService = new SwapiService();
             $starships = $swapiService->fetchStarshipById($id);
-            header('Content-Type: application/json');
-
-            Log::save('INFO', "/starships/$id");
-            echo json_encode([
-                'success' => true,
-                'data' => $starships
-            ], 200);
+            $this->jsonResponse([
+               'success' => true,
+                'data' => $starships,
+            ], 200 );
         } catch (\Exception $e) {
-            http_response_code(500);
             error_log($e->getMessage());
-
-            Log::save('ERROR', "/starships/$id");
-            echo json_encode([
-                'error' => true,
-                'message' => 'Failed to fetch starships'
+            $this->jsonResponse([
+                'success' => false,
+                'message' => 'Failed to fetch starship'
             ], 500);
         }
     }

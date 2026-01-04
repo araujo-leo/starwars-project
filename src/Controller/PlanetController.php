@@ -6,7 +6,7 @@ use App\Core\View;
 use App\Model\Log;
 use App\Service\SwapiService;
 
-class PlanetController
+class PlanetController extends BaseController
 {
     public function index() :string
     {
@@ -20,7 +20,7 @@ class PlanetController
 
     }
 
-    public function show($id) :string
+    public function show(int $id) :string
     {
         try{
             return View::render("planets/show", ['id' => $id]);
@@ -37,44 +37,34 @@ class PlanetController
             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $swapiService = new SwapiService();
             $planets = $swapiService->fetchAllPlanets($page);
-            header('Content-Type: application/json');
-
-            Log::save('INFO', "/films?page=$page");
-            echo json_encode([
-                'succes' => true,
-                'data' => $planets
+            $this->jsonResponse([
+                'success' => true,
+                'data' => $planets,
             ], 200);
         } catch (\Exception $e) {
-            http_response_code(500);
             error_log($e->getMessage());
-
-            Log::save('ERROR', "/planets" );
-            echo json_encode([
+            $this->jsonResponse([
                 'error' => true,
                 'message' => 'Failed to fetch planets'
             ], 500);
         }
     }
-    public function getPlanet($id) :void
+    public function getPlanet(int $id) :void
     {
         try {
             $swapiService = new SwapiService();
             $planets = $swapiService->fetchPlanetById($id);
             header('Content-Type: application/json');
 
-            Log::save('INFO', "/planets/$id");
-            echo json_encode([
+            $this->jsonResponse([
                 'success' => true,
-                'data' => $planets
-            ], 200);
+                'data' => $planets,
+            ], 200 );
         } catch (\Exception $e) {
-            http_response_code(500);
             error_log($e->getMessage());
-
-            Log::save('ERROR', "/planets");
-            echo json_encode([
+            $this->jsonResponse([
                 'error' => true,
-                'message' => 'Failed to fetch planets'
+                'message' => 'Failed to fetch planet'
             ], 500);
         }
     }

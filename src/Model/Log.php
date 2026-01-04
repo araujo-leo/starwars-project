@@ -7,7 +7,7 @@ use PDOException;
 
 class Log
 {
-    public static function save(string $level, string $url, ?string $method = null, ?int $statusCode = null): bool
+    public static function save(string $level, string $url, float $time, ?string $method = null, ?int $statusCode = null): bool
     {
         try {
             $pdo = Database::getConnection();
@@ -15,8 +15,8 @@ class Log
             $method = $method ?? $_SERVER['REQUEST_METHOD'];
             $statusCode = $statusCode ?? http_response_code();
 
-            $sql = "INSERT INTO logs_api (levelLog, requestUrlLog, methodRequestLog, statusCodeLog) 
-                    VALUES (:level, :url, :method, :status)";
+            $sql = "INSERT INTO logs_api (levelLog, requestUrlLog, methodRequestLog, statusCodeLog, responseTime) 
+                    VALUES (:level, :url, :method, :status, :time)";
 
             $stmt = $pdo->prepare($sql);
 
@@ -24,6 +24,7 @@ class Log
             $stmt->bindValue(':url', $url);
             $stmt->bindValue(':method', $method);
             $stmt->bindValue(':status', $statusCode);
+            $stmt->bindValue(':time', $time);
 
             return $stmt->execute();
 
