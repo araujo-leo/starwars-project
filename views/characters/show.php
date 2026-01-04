@@ -250,7 +250,7 @@
                 const displayText = data.title || data.name;
 
                 $(`#${elementId}`).text(displayText).removeClass('loading-text');
-                $(`#link-${elementId}`).attr('href', `/${endpoint === 'films' : endpoint}/${id}`).removeClass('disabled');
+                $(`#link-${elementId}`).attr('href', `/${endpoint === 'films' ? 'filme' : endpoint}/${id}`).removeClass('disabled');
             }).fail(function() {
                 $(`#${elementId}`).text(`Unidentified #${id}`).removeClass('loading-text').addClass('text-muted');
             });
