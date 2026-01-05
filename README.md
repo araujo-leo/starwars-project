@@ -29,7 +29,7 @@ A simple, robust web application to browse Star Wars films. Built with **Vanilla
 
 1.  Start a MySQL database and import `src/Config/init.sql`.
 2.  Update `.env` with your database credentials.
-3.  Run the PHP server: `php -S localhost:8080 -t`
+3.  Run the PHP server: `php -S localhost:8080`
 
 ## 📡 API Endpoints
 
